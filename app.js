@@ -23,10 +23,12 @@ $(document).ready(function(){
     });
 
     $(document).on("click", ".view", function() {
-        $(this).closest("li").toggleClass("completed");
-        $(this).find("input.toggle").toggleClass("checked");
+        var listItem = $(this).closest("li");
+        listItem.toggleClass("completed");
+        var checkbox = listItem.find("input.toggle");
+        checkbox.prop("checked", listItem.hasClass("completed"));
         updateItemCount();
-    })
+    });
 
     $(document).on("click", ".toggle-all", function() {
         var items = $("#todo-list").children();
@@ -34,11 +36,15 @@ $(document).ready(function(){
 
         items.each(function() {
             if (hasCompleted) {
-                $(this).removeClass("completed");
-                $(this).find("input.toggle").removeClass("checked");
+                var listItem = $(this).closest("li");
+                listItem.removeClass("completed");
+                var checkbox = listItem.find("input.toggle");
+                checkbox.prop("checked", listItem.hasClass("completed"));
             } else {
-                $(this).addClass("completed");
-                $(this).find("input.toggle").addClass("checked");
+                var listItem = $(this).closest("li");
+                listItem.addClass("completed");
+                var checkbox = listItem.find("input.toggle");
+                checkbox.prop("checked", listItem.hasClass("completed"));
             }
         });
         updateItemCount();
@@ -49,27 +55,21 @@ $(document).ready(function(){
         $("strong").text(remainingItemsCount);
     }
 
-    $(document).on("dblclick", ".view label", function() {
-        var label = $(this);
-        var listItem=label.closest("li");
-        listItem.append($("<input type='text' class='edit'>").val(label.text()));
-        input.focus();
-    
-        input.on("keypress focusout", function(event) {
-            if (event.which !== 13) {
-                return;
-            }
-    
-            var newText = input.val().trim();
-            if (newText !== "") {
-                label.text(newText);
-            }
-    
-            input.replaceWith(label);
-        });
-    });
-
     updateItemCount();
+
+    $("a").on("click", function(){
+        $("a").removeClass("selected");
+        $(this).addClass("selected");
+        var linkText = $("a.selected").text();
+
+        if(linkText === "Active") {
+            $(this).closest(".main").find(".completed").hide();
+        } else if (linkText ==="Completed") {
+            $(this).closest(".main").find("li:not(.completed)").hide();
+        } else {
+            console.log(linkText);
+        }
+    })
 
     $.uuid = function() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
