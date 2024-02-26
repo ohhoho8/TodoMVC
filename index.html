@@ -4,10 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TodoMVC: jQuery</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/app.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 </head>
 <body>
-    <div id="helloWorld"></div>
+    <section id="todoapp" class="todoapp">
+        <header id="header" class="header">
+            <h1>todos</h1>
+            <input id="new-todo" class="new-todo" placeholder="What needs to be done?" autofocus>
+        </header>
+        <main id="main" class="main" style="display: block;">
+            <div class="toggle-all-container">
+                <input id="toggle-all" class="toggle-all" type="checkbox">
+                <label for="toggle-all">
+                    ::before
+                    "Mark all as complete"
+                </label>
+            </div>
+            <ul id="todo-list" class="todo-list">
+                <li class data-id="" ">
+                    <div class="view">
+                        <input class="toggle" type="checkbox">
+                        <label>ssss</label>
+                        <button class="destroy"></button>
+                    <input class="edit" value="ttds">
+                </li>
+            </ul>
+        </main>
+        <footer id="footer" class="footer" style="display: block;">
+            <span id="todo-count" class="todo-count">
+                <strong></strong>
+                " items left"
+            </span>
+            <ul id="filters" class="filters">
+                <li>
+                    <a class="selected" href="#/all">All</a>
+                </li>
+                <li>
+                    <a href="#/active">Active</a>
+                </li>
+                <li>
+                    <a href="#/completed">Completed</a>
+                </li>
+            </ul>
+        </footer>
+    </section>
+    <footer id="info" class="info">
+        <p>Double-click to edit a todo</p>
+        <p>
+            "Created by "
+            <a href="http://sindresorhus.com">Sindre Sorhus</a>
+        </p>
+        <p>Updated by the TodoMVC Team</p>
+        <p>
+            "Part of "
+            <a href="http://todomvc.com">TodoMVC</a>
+        </p>
+    </footer>
+    <script id="todo-template" type="text/x-handlebars-template">
+        {{#this is |item index|}}
+        <li class="{{#if item.completed}} completed{{/if}}" data-id="{{item.id}}"">
+            <div class="view">
+                <input class="toggle" type="checkbox" {{#if item.completed}}checked{{/if}}>
+                <label>{{item.title}}</label>
+                <button class="destroy"></button>
+            </div>
+            <input class="edit" value="{{item.title}}">
+        </li>
+        {{/this}}
+    </script>
+    <script id="footer-template" type="text/x-handlebars-template">
+        <span id="todo-count" class="todo-count"><strong>{{activeTodoCount}}</strong>{{activeTodoWord}} left</span>
+        <ul id="filters" class="filters">
+            <li>
+                <a {{#eq filter 'all'}}class="selected"{{/eq}} href="#/all">All</a>
+            </li>
+            <li>
+                <a {{#eq filter 'completed'}}class="selected"{{/eq}}href="#/completed">Completed</a>
+            </li>
+        </ul>
+        {{#if compeletedTodos}}<button class="clear-completed">Clear completed</button>{{/if}}
+    </script>
+    <script src="app.js"></script>
 </body>
 </html>
